@@ -1,20 +1,25 @@
+import { MdHome, MdPeople, MdOutlineLogout } from "react-icons/md";
+
 import NavEntry from "./NavEntry";
 
 import "./Nav.scss";
 
-import { ReactComponent as people } from '../icons/people.svg'
-import { ReactComponent as home } from '../icons/home.svg'
 
 const links = [
 	{
 		name: "Overview",
 		path: "/",
-		icon: home,
+		icon: MdHome
 	},
 	{
 		name: "Players",
 		path: "player",
-		icon: people
+		icon: MdPeople
+	},
+	{
+		name: "Logout",
+		path: "logout",
+		icon: MdOutlineLogout
 	}
 ];
 
@@ -26,7 +31,7 @@ export default function Nav() {
 				<h1>DyCloud</h1>
 			</div>
 			<div className={"links"}>
-				{links.map(link => <NavEntry key={links.path} name={link.name} icon={link.icon} path={link.path} />)}
+				{links.map(link => <NavEntry key={link.path} name={link.name} icon={link.icon} path={link.path} />)}
 			</div>
 		</div>
 	);

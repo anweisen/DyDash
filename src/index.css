@@ -18,6 +18,10 @@ a {
 	text-decoration: none;
 }
 
+input:focus, textarea:focus, select:focus, button {
+	outline: none;
+}
+
 .App {
 	display: table;
 	width: 100%;
