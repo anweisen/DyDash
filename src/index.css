@@ -1,0 +1,56 @@
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+a {
+	text-decoration: none;
+}
+
+.App {
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+.content {
+	background: var(--background-color);
+	display: -webkit-flex;
+	display: flex;
+	height: 100vh;
+	width: 100%;
+	overflow: auto;
+}
+
+
+::-webkit-scrollbar {
+	width: 8px;
+	background-color: var(--scroll-background-color);
+	-webkit-border-radius: 100px;
+}
+
+/* hover effect for both scrollbar area, and scrollbar 'thumb' */
+::-webkit-scrollbar:hover {
+	background-color: var(--scroll-background-color-hover);
+}
+
+/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+::-webkit-scrollbar-thumb:vertical {
+	background: var(--scroll-thumb-color);
+	-webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+	background: var(--scroll-thumb-color-click);
+	-webkit-border-radius: 100px;
+}
