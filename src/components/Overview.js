@@ -1,7 +1,9 @@
+import Loader from "./Loader";
+
 export default function Overview() {
 	return (
-		<div className={"Overview"}>
-			<p>Hi</p>
+		<div className={"Overview Dashboard-Component"}>
+			<Loader/>
 		</div>
 	);
 }

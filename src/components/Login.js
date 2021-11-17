@@ -74,8 +74,8 @@ export default function Login({ setCookies }) {
 		<div className={"Login"}>
 
 			<div className={"header"}>
-				<img alt={""} src={"logo.png"}/>
-				<h1>DyCloud</h1>
+				<img alt={""} src={"logo-sized.png"}/>
+				<h1>DyCloud » Dashboard</h1>
 			</div>
 
 			<div className={"form-container"}>

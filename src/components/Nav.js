@@ -1,4 +1,4 @@
-import { MdHome, MdPeople, MdOutlineLogout } from "react-icons/md";
+import { MdHome, MdPeople, MdStorage, MdOutlineLogout } from "react-icons/md";
 
 import NavEntry from "./NavEntry";
 
@@ -17,6 +17,11 @@ const links = [
 		icon: MdPeople
 	},
 	{
+		name: "Services",
+		path: "service",
+		icon: MdStorage
+	},
+	{
 		name: "Logout",
 		path: "logout",
 		icon: MdOutlineLogout
@@ -27,7 +32,7 @@ export default function Nav() {
 	return (
 		<div className={"Nav"}>
 			<div className={"header"}>
-				<img alt={""} src={"logo.png"} />
+				<img alt={""} src={"logo-sized.png"} />
 				<h1>DyCloud</h1>
 			</div>
 			<div className={"links"}>
