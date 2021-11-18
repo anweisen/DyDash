@@ -3,3 +3,37 @@
 	height: 100%;
 	width: 100%;
 }
+
+.Card {
+	margin: 100px;
+
+	//display: inline-block;
+	display: table;
+	padding: 35px;
+	background: var(--card-background-color);
+	border-radius: 20px;
+
+	.icon {
+		//display: block;
+		//margin: auto;
+
+		filter: brightness(85%);
+		color: var(--card-name-color);
+		width: 45px;
+		height: auto;
+	}
+	.name {
+		font-family: "Roboto Light", sans-serif;
+		font-weight: 500;
+		font-size: 18px;
+		margin-top: -5px;
+
+		color: var(--card-name-color);
+	}
+	.value {
+		font-family: 'Quicksand', sans-serif;
+		font-weight: 600;
+		font-size: 25px;
+		margin-top: 10px;
+	}
+}

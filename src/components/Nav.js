@@ -4,7 +4,6 @@ import NavEntry from "./NavEntry";
 
 import "./Nav.scss";
 
-
 const links = [
 	{
 		name: "Overview",

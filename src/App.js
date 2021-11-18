@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom"
 import { useCookies } from "react-cookie";
 
-import "./theme.scss"
-
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Dashboard from "./components/Dashboard";
+
+import "./theme.scss";
 
 function App() {
 	const [ cookies, setCookies ] = useCookies(["host", "method", "token"]);
