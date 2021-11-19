@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { MdPeopleOutline } from "react-icons/all";
+import { MdPeopleOutline } from "react-icons/md";
 
-import Loader from "./Loader";
+import Loader from "../../Loader";
 
 function Card({ name, value }) {
 	return (

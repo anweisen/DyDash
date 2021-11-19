@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { useEffect, useState } from "react";
 
-import { CloudAPI, Routes as ApiRoutes } from "../api/api";
+import { CloudAPI, Routes as ApiRoutes } from "../../api/api";
 
-import Nav from "./Nav";
-import Overview from "./Overview";
-import Loader from "./Loader";
+import Nav from "../Nav";
+import Overview from "./content/Overview";
+import Loader from "../Loader";
 
 import "./Dashboard.scss";
 

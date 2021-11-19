@@ -87,9 +87,10 @@ export default function Login({ setCookies }) {
 
 						if (method == null) return;
 						const host = hooks[addressField].value;
+						const options = { magAge: 7*24*60*60*60 };
 
-						setCookies("method", method);
-						setCookies("host", host);
+						setCookies("method", method, options);
+						setCookies("host", host, options);
 
 						const methodObject = loginMethods.find(current => current.name === method);
 						let token = "";
@@ -97,7 +98,7 @@ export default function Login({ setCookies }) {
 							if (token.length > 0) token += ":";
 							token += hooks[field].value;
 						}
-						setCookies("token", token);
+						setCookies("token", token, options);
 
 						setRedirect(true);
 					}}>Login</div>

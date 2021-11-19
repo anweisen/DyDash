@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 
 import Login from "./components/Login";
 import Logout from "./components/Logout";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 
 import "./theme.scss";
 

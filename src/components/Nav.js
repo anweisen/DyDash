@@ -1,8 +1,8 @@
 import { MdHome, MdPeople, MdStorage, MdOutlineLogout } from "react-icons/md";
 
-import NavEntry from "./NavEntry";
+import NavEntry from "./dashboard/NavEntry";
 
-import "./Nav.scss";
+import "./dashboard/Nav.scss";
 
 const links = [
 	{
