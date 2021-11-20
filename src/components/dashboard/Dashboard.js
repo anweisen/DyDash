@@ -16,7 +16,7 @@ export default function Dashboard({ cookies }) {
 	useEffect(() => {
 		if (connection != null) return;
 		const api = new CloudAPI(cookies.host, { method: cookies.method, token: cookies.token });
-		const socket = new WebSocket(api.useUrl(ApiRoutes.UPGRADE_WEBSOCKET, { auth: cookies.method + " " + cookies.token}, "ws"));
+		const socket = new WebSocket(api.useUrl(ApiRoutes.UPGRADE_WEBSOCKET, { auth: cookies.method + " " + cookies.token}, "wss"));
 
 		socket.onerror = () => {
 			setConnection(false);

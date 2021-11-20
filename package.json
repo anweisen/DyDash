@@ -19,6 +19,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "predeploy": "yarn build",
+    "deploy": "yarn gh-pages -d build",
     "start": "react-scripts start",
     "build": "tsc && react-scripts build",
     "test": "react-scripts test",
@@ -43,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^3.2.3",
     "typecript": "^0.0.1-security"
   }
 }
