@@ -5,6 +5,7 @@ import { CloudAPI, Routes as ApiRoutes } from "../../api/api";
 
 import Nav from "../Nav";
 import Overview from "./content/Overview";
+import Players from "./content/Players";
 import Loader from "../Loader";
 
 import "./Dashboard.scss";
@@ -36,8 +37,8 @@ export default function Dashboard({ cookies }) {
 
 					<div className={"content"}>
 						<Routes>
-							<Route path={"/"} element={<Overview api={connection} />} />
-							<Route path={"player"} />
+							<Route path={"/"}       element={<Overview api={connection} />} />
+							<Route path={"player"}  element={<Players api={connection} />} />
 						</Routes>
 					</div>
 				</>

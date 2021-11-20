@@ -81,6 +81,8 @@ export default function Login({ setCookies }) {
 			<div className={"form-container"}>
 				<div className={"form"}>
 					<h1>Login</h1>
+					{/*<h1>•┃ Login ┃•</h1>*/}
+					{/*<h1>•» Login «•</h1>*/}
 					<LoginSelect method={method} setMethod={setMethod} hooks={hooks} />
 					<div className={"button"} onClick={event => {
 						event.preventDefault();

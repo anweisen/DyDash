@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MdPeopleOutline } from "react-icons/md";
+import { MdPeopleOutline } from "react-icons/all";
 
 import Loader from "../../Loader";
 

@@ -1,4 +1,4 @@
-import axios, {Method} from "axios";
+import axios from "axios";
 
 const API_VERSION = 1;
 
@@ -6,9 +6,20 @@ type Auth = {
 	method: string;
 	token: string;
 }
+type HttpMethod =
+	| 'get'
+	| 'delete'
+	| 'head'
+	| 'options'
+	| 'post'
+	| 'put'
+	| 'patch'
+	| 'purge'
+	| 'link'
+	| 'unlink';
 type Route = {
 	path: string;
-	method: Method;
+	method: HttpMethod;
 }
 export module Routes {
 	export const UPGRADE_WEBSOCKET: Route 	= { path: "/upgrade", 		method: "get" };
@@ -35,7 +46,7 @@ export class CloudAPI {
 		return this.auth.method + " " + this.auth.token;
 	}
 
-	initSocket(socket: WebSocket) {
+	initSocket(socket: WebSocket): void {
 		this.socket = socket;
 
 		this.socket.onmessage = (event) => {
@@ -58,12 +69,13 @@ export class CloudAPI {
 	}
 
 	public async makeRequest(route: Route): Promise<any> {
-		const target = this.useUrl(route);
+		const endpoint = this.useUrl(route);
 
-		return axios(target, {
+		return axios(endpoint, {
 			headers: {
 				Authorization: this.getAuth()
 			},
+			timeout: 3500,
 			method: route.method
 		}).then(value => value.data);
 	}
