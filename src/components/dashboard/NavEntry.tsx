@@ -1,7 +1,8 @@
 import React from "react";
+import { IconType } from "react-icons";
 import { NavLink } from "react-router-dom";
 
-export default function NavEntry({ name, icon, path }) {
+export default function NavEntry({ name, icon, path }: { name: string, path: string; icon: IconType }) {
 	return (
 		<div>
 			<NavLink to={path} className={"NavEntry"}>

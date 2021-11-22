@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { MdPeopleOutline } from "react-icons/all";
 
 import Loader from "../../Loader";
+import { CloudAPI, Player } from "../../../api/api";
 
-function Card({ name, value }) {
+function Card({ name, value }: { name: string; value: any; }) {
 	return (
 		<div className={"Card"}>
 			<MdPeopleOutline className={"icon"}/>
@@ -13,8 +14,8 @@ function Card({ name, value }) {
 	);
 }
 
-export default function Overview({ api }) {
-	const [ players, setPlayers ] = useState();
+export default function Overview({ api }: { api: CloudAPI; }) {
+	const [ players, setPlayers ] = useState<Array<Player>>();
 
 	useEffect(() => {
 		if (players != null) return;

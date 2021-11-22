@@ -7,16 +7,17 @@ type Auth = {
 	token: string;
 }
 type HttpMethod =
-	| 'get'
-	| 'delete'
-	| 'head'
-	| 'options'
-	| 'post'
-	| 'put'
-	| 'patch'
-	| 'purge'
-	| 'link'
-	| 'unlink';
+	| "get"
+	| "delete"
+	| "head"
+	| "options"
+	| "post"
+	| "put"
+	| "patch"
+	| "purge"
+	| "link"
+	| "unlink";
+
 type Route = {
 	path: string;
 	method: HttpMethod;
@@ -26,7 +27,7 @@ export module Routes {
 	export const ONLINE_PLAYERS: Route 		= { path: "/player/online",	method: "get" };
 }
 
-declare interface Player {
+export interface Player {
 	name: string;
 	uuid: string;
 }
@@ -56,6 +57,7 @@ export class CloudAPI {
 	}
 
 	useUrl(route: Route, queryParams: Record<string, string> = {}, protocol: string = "http"): string {
+		console.log(queryParams)
 		let query = "";
 		for (const key in queryParams) {
 			if (query === "") query = "?";
@@ -63,9 +65,15 @@ export class CloudAPI {
 			query += key;
 			query += "=";
 			query += encodeURIComponent(queryParams[key]);
+			console.log(key)
+			console.log(queryParams[key])
 		}
 
 		return `${protocol}://${this.host}/v${API_VERSION}${route.path}${query}`;
+	}
+
+	public upgradeWebSocket(): WebSocket {
+		return new WebSocket(this.useUrl(Routes.UPGRADE_WEBSOCKET, { auth: this.auth.method + " " + this.auth.token }, "wss"));
 	}
 
 	public async makeRequest(route: Route): Promise<any> {
@@ -80,7 +88,7 @@ export class CloudAPI {
 		}).then(value => value.data);
 	}
 
-	public async fetchPlayers(): Promise<Array<Player>> {
+	public async fetchPlayers(): Promise<Player[]> {
 		return this.makeRequest(Routes.ONLINE_PLAYERS);
 	}
 

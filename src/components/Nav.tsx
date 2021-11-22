@@ -1,10 +1,11 @@
 import { MdHome, MdPeople, MdStorage, MdOutlineLogout } from "react-icons/all";
+import { IconType } from "react-icons";
 
 import NavEntry from "./dashboard/NavEntry";
 
 import "./dashboard/Nav.scss";
 
-const links = [
+const links: Array<{ name: string; path: string; icon: IconType }> = [
 	{
 		name: "Overview",
 		path: "/",

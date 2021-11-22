@@ -4,7 +4,9 @@ import { Navigate } from "react-router-dom";
 
 import "./Login.scss";
 
-const loginMethods = [
+type Hooks = Record<string, { value: string | undefined; set: (value: string) => void }>;
+type LoginMethod = { name: string; fields: string[] }
+const loginMethods: Array<LoginMethod> = [
 	{
 		name: "Player",
 		fields: [
@@ -21,36 +23,39 @@ const loginMethods = [
 ]
 const addressField = "Cloud Hostaddress";
 
-function MethodFormInputs({ method, hooks }) {
-	const methodObject = loginMethods.find(current => current.name === method);
-	return methodObject.fields.map(field => <FormInput key={field} name={field} hooks={hooks} />);
+function MethodFormInputs({ method, hooks }:{ method: LoginMethod; hooks: Hooks }) {
+	return (
+		<>
+			{method.fields.map(field => <FormInput key={field} name={field} hooks={hooks} />)}
+		</>
+	);
 }
-function FormInput({ name, hooks }) {
-	const [ value, set ] = useState();
+function FormInput({ name, hooks }:{ name: string; hooks: Hooks }) {
+	const [ value, set ] = useState<string>();
 	hooks[name] = { value: value, set: set };
 	return <input className={"input"} placeholder={name} onChange={event => set(event.target.value)}/>
 }
-function LoginSelect({ method, setMethod, hooks }) {
+function LoginSelect({ method, setMethod, hooks }:{ method: LoginMethod | undefined; setMethod: (value: LoginMethod) => void; hooks: Hooks }) {
 	const [ collapsed, setCollapsed ] = useState(true);
 
 	return (
 		<div className={"LoginSelect"}>
 
 			<div className={"box"} onClick={event => setCollapsed(!collapsed)}>
-				<p className={"text"}>{method == null ? "Select Method" : method}</p>
+				<p className={"text"}>{method == null ? "Select Method" : method.name}</p>
 				<MdExpandMore className={"icon" + (collapsed ? "" : " rotated")}/>
 			</div>
 			<div className={"dropdown-container"}>
 				<span className={"dropdown" + (collapsed ? "" : " shown")}>
 					<div className={"dropdown-selection"}>
-						{loginMethods.map(method =>
-							<p key={method.name} onClick={event => {
-							setMethod(method.name);
-							setCollapsed(true);
+						{loginMethods.map(current =>
+							<p key={current.name} className={(current === method ? "current" : "")} onClick={event => {
+								setMethod(current);
+								setCollapsed(true);
 							}}>
-								{method.name}
-							</p>)
-						}
+								{current.name}
+							</p>
+						)}
 					</div>
 				</span>
 			</div>
@@ -61,12 +66,12 @@ function LoginSelect({ method, setMethod, hooks }) {
 	)
 }
 
-export default function Login({ setCookies }) {
-	const [ method, setMethod ] = useState();
-	const hooks = {};
-	const [ redirect, setRedirect ] = useState();
+export default function Login({ setCookies }:{ setCookies: any }) {
+	const [ method, setMethod ] = useState<LoginMethod>();
+	const [ redirect, setRedirect ] = useState(false);
+	const hooks: Hooks = {};
 
-	function Redirect({ to }) {
+	function Redirect({ to }: { to: string }) {
 		return redirect ? <Navigate to={to} /> : null;
 	}
 
@@ -94,9 +99,8 @@ export default function Login({ setCookies }) {
 						setCookies("method", method, options);
 						setCookies("host", host, options);
 
-						const methodObject = loginMethods.find(current => current.name === method);
 						let token = "";
-						for (const field of methodObject.fields) {
+						for (const field of method.fields) {
 							if (token.length > 0) token += ":";
 							token += hooks[field].value;
 						}

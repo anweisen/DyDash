@@ -7,7 +7,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 
 import "./theme.scss";
 
-function App() {
+export default function App() {
 	const [ cookies, setCookies ] = useCookies(["host", "method", "token"]);
 	const cookiesSet = cookies.method != null && cookies.host != null && cookies.token != null;
 
@@ -23,5 +23,3 @@ function App() {
 		</div>
 	);
 }
-
-export default App;

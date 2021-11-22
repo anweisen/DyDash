@@ -10,13 +10,13 @@ import Loader from "../Loader";
 
 import "./Dashboard.scss";
 
-export default function Dashboard({ cookies }) {
-	const [ connection, setConnection ] = useState(null);
+export default function Dashboard({ cookies }: { cookies: Record<string, any> }) {
+	const [ connection, setConnection ] = useState<any>();
 
 	useEffect(() => {
-		if (connection != null) return;
+		if (connection != null) return; // only try to connect the first time
 		const api = new CloudAPI(cookies.host, { method: cookies.method, token: cookies.token });
-		const socket = new WebSocket(api.useUrl(ApiRoutes.UPGRADE_WEBSOCKET, { auth: cookies.method + " " + cookies.token}, "wss"));
+		const socket = api.upgradeWebSocket();
 
 		socket.onerror = () => {
 			setConnection(false);
