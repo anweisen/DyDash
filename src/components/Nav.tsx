@@ -5,7 +5,7 @@ import NavEntry from "./dashboard/NavEntry";
 
 import "./dashboard/Nav.scss";
 
-const links: Array<{ name: string; path: string; icon: IconType }> = [
+const links: { name: string; path: string; icon: IconType }[] = [
 	{
 		name: "Overview",
 		path: "/",

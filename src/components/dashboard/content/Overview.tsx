@@ -15,7 +15,7 @@ function Card({ name, value }: { name: string; value: any; }) {
 }
 
 export default function Overview({ api }: { api: CloudAPI; }) {
-	const [ players, setPlayers ] = useState<Array<Player>>();
+	const [ players, setPlayers ] = useState<Player[]>();
 
 	useEffect(() => {
 		if (players != null) return;

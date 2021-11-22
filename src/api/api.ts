@@ -36,15 +36,17 @@ export class CloudAPI {
 
 	private readonly host: string;
 	private readonly auth: Auth;
+	private readonly encryption: boolean;
 	private socket: WebSocket | undefined;
 
-	constructor(host: string, auth: Auth) {
+	constructor(encryption: boolean, host: string, auth: Auth) {
+		this.encryption = encryption;
 		this.host = host;
 		this.auth = auth;
 	}
 
 	getAuth(): string {
-		return this.auth.method + " " + this.auth.token;
+		return `${this.auth.method} ${this.auth.token}`;
 	}
 
 	initSocket(socket: WebSocket): void {
@@ -56,8 +58,7 @@ export class CloudAPI {
 		}
 	}
 
-	useUrl(route: Route, queryParams: Record<string, string> = {}, protocol: string = "http"): string {
-		console.log(queryParams)
+	useUrl(route: Route, queryParams: Record<string, string> = {}, protocol: string = this.encryption ? "https" : "http"): string {
 		let query = "";
 		for (const key in queryParams) {
 			if (query === "") query = "?";
@@ -65,27 +66,29 @@ export class CloudAPI {
 			query += key;
 			query += "=";
 			query += encodeURIComponent(queryParams[key]);
-			console.log(key)
-			console.log(queryParams[key])
 		}
 
 		return `${protocol}://${this.host}/v${API_VERSION}${route.path}${query}`;
 	}
 
 	public upgradeWebSocket(): WebSocket {
-		return new WebSocket(this.useUrl(Routes.UPGRADE_WEBSOCKET, { auth: this.auth.method + " " + this.auth.token }, "wss"));
+		return new WebSocket(this.useUrl(Routes.UPGRADE_WEBSOCKET, { auth: this.getAuth() }, this.encryption ? "wss" : "ws"));
 	}
 
 	public async makeRequest(route: Route): Promise<any> {
 		const endpoint = this.useUrl(route);
 
+		const startTime = Date.now();
 		return axios(endpoint, {
 			headers: {
 				Authorization: this.getAuth()
 			},
 			timeout: 3500,
 			method: route.method
-		}).then(value => value.data);
+		}).then(value => {
+			console.log(`Fetched ${route.path} in ${Date.now() - startTime}ms`)
+			return value.data;
+		});
 	}
 
 	public async fetchPlayers(): Promise<Player[]> {

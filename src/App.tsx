@@ -8,7 +8,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import "./theme.scss";
 
 export default function App() {
-	const [ cookies, setCookies ] = useCookies(["host", "method", "token"]);
+	const [ cookies, setCookies ] = useCookies(["encryption", "host", "method", "token"]);
 	const cookiesSet = cookies.method != null && cookies.host != null && cookies.token != null;
 
 	return (

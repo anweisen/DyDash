@@ -1,4 +1,4 @@
-import { MdExpandMore } from "react-icons/md";
+import { MdExpandMore, MdDone, MdClose } from "react-icons/md";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 
@@ -6,7 +6,7 @@ import "./Login.scss";
 
 type Hooks = Record<string, { value: string | undefined; set: (value: string) => void }>;
 type LoginMethod = { name: string; fields: string[] }
-const loginMethods: Array<LoginMethod> = [
+const loginMethods: LoginMethod[] = [
 	{
 		name: "Player",
 		fields: [
@@ -35,7 +35,7 @@ function FormInput({ name, hooks }:{ name: string; hooks: Hooks }) {
 	hooks[name] = { value: value, set: set };
 	return <input className={"input"} placeholder={name} onChange={event => set(event.target.value)}/>
 }
-function LoginSelect({ method, setMethod, hooks }:{ method: LoginMethod | undefined; setMethod: (value: LoginMethod) => void; hooks: Hooks }) {
+function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ method: LoginMethod | undefined; setMethod: (value: LoginMethod) => void; encryption: boolean; setEncryption: (value: boolean) => void; hooks: Hooks }) {
 	const [ collapsed, setCollapsed ] = useState(true);
 
 	return (
@@ -59,6 +59,10 @@ function LoginSelect({ method, setMethod, hooks }:{ method: LoginMethod | undefi
 					</div>
 				</span>
 			</div>
+			<div className={"box"} onClick={event => setEncryption(!encryption)}>
+				<p className={"text"}>SSL Encryption</p>
+				{encryption ? <MdDone className={"icon"} /> : <MdClose className={"icon"} />}
+			</div>
 			<FormInput name={addressField} hooks={hooks} />
 			{method != null ? <MethodFormInputs method={method} hooks={hooks} /> : null}
 
@@ -69,6 +73,7 @@ function LoginSelect({ method, setMethod, hooks }:{ method: LoginMethod | undefi
 export default function Login({ setCookies }:{ setCookies: any }) {
 	const [ method, setMethod ] = useState<LoginMethod>();
 	const [ redirect, setRedirect ] = useState(false);
+	const [ encryption, setEncryption ] = useState(false);
 	const hooks: Hooks = {};
 
 	function Redirect({ to }: { to: string }) {
@@ -88,7 +93,7 @@ export default function Login({ setCookies }:{ setCookies: any }) {
 					<h1>Login</h1>
 					{/*<h1>•┃ Login ┃•</h1>*/}
 					{/*<h1>•» Login «•</h1>*/}
-					<LoginSelect method={method} setMethod={setMethod} hooks={hooks} />
+					<LoginSelect method={method} setMethod={setMethod} encryption={encryption} setEncryption={setEncryption} hooks={hooks} />
 					<div className={"button"} onClick={event => {
 						event.preventDefault();
 
@@ -96,7 +101,8 @@ export default function Login({ setCookies }:{ setCookies: any }) {
 						const host = hooks[addressField].value;
 						const options = { magAge: 7*24*60*60*60 };
 
-						setCookies("method", method, options);
+						setCookies("encryption", encryption);
+						setCookies("method", method.name, options);
 						setCookies("host", host, options);
 
 						let token = "";

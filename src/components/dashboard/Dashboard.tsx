@@ -1,7 +1,7 @@
-import { Navigate, Route, Routes } from "react-router-dom"
-import { useEffect, useState } from "react";
+import {Navigate, Route, Routes} from "react-router-dom"
+import {useEffect, useState} from "react";
 
-import { CloudAPI, Routes as ApiRoutes } from "../../api/api";
+import {CloudAPI} from "../../api/api";
 
 import Nav from "../Nav";
 import Overview from "./content/Overview";
@@ -15,7 +15,7 @@ export default function Dashboard({ cookies }: { cookies: Record<string, any> })
 
 	useEffect(() => {
 		if (connection != null) return; // only try to connect the first time
-		const api = new CloudAPI(cookies.host, { method: cookies.method, token: cookies.token });
+		const api = new CloudAPI(cookies.encryption, cookies.host, { method: cookies.method, token: cookies.token });
 		const socket = api.upgradeWebSocket();
 
 		socket.onerror = () => {

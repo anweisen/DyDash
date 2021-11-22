@@ -108,10 +108,13 @@
 				display: flex;
 				flex-direction: column;
 
+				.input, .box {
+					margin-top: 10px;
+				}
+
 				.input {
 					font-size: 19px;
 					transition: border-bottom-color ease 0.2s;
-					margin-top: 10px;
 					padding-bottom: 7px;
 					border: none;
 					background: none;
@@ -121,7 +124,7 @@
 						border-bottom: 1px solid #fff;
 					}
 					&:first-of-type {
-						margin-top: 25px;
+						margin-top: 20px;
 					}
 					::placeholder {
 						color: var(--navbar-entry-color);

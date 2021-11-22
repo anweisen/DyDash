@@ -5,7 +5,7 @@ import Loader from "../../Loader";
 import { CloudAPI, Player } from "../../../api/api";
 
 export default function Players({ api }: { api: CloudAPI }) {
-	const [ players, setPlayers ] = useState<Array<Player>>();
+	const [ players, setPlayers ] = useState<Player[]>();
 
 	useEffect(() => {
 		if (players != null) return;
