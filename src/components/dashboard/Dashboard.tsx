@@ -31,6 +31,7 @@ export default function Dashboard({ cookies }: { cookies: Record<string, any> })
 		} catch (ex) {
 			console.error("Could not establish websocket connection");
 			console.error(ex);
+			setConnection(false);
 		}
 	});
 
