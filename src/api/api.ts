@@ -2,10 +2,11 @@ import axios from "axios";
 
 const API_VERSION = 1;
 
-type Auth = {
+type Authentication = {
 	method: string;
 	token: string;
 }
+type UniqueId = string;
 type HttpMethod =
 	| "get"
 	| "delete"
@@ -24,22 +25,22 @@ type Route = {
 }
 export module Routes {
 	export const UPGRADE_WEBSOCKET: Route 	= { path: "/upgrade", 		method: "get" };
-	export const ONLINE_PLAYERS: Route 		= { path: "/player/online",	method: "get" };
+	export const ONLINE_PLAYERS: 	Route	= { path: "/player/online",	method: "get" };
 }
 
 export interface Player {
 	name: string;
-	uuid: string;
+	uuid: UniqueId;
 }
 
 export class CloudAPI {
 
 	private readonly host: string;
-	private readonly auth: Auth;
+	private readonly auth: Authentication;
 	private readonly encryption: boolean;
 	private socket: WebSocket | undefined;
 
-	constructor(encryption: boolean, host: string, auth: Auth) {
+	constructor(encryption: boolean, host: string, auth: Authentication) {
 		this.encryption = encryption;
 		this.host = host;
 		this.auth = auth;
