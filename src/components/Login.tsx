@@ -1,6 +1,7 @@
 import {MdClose, MdDone, MdExpandMore} from "react-icons/md";
-import {useState} from "react";
+import {IconType} from "react-icons";
 import {Navigate} from "react-router-dom";
+import React, {useState} from "react";
 
 import "./Login.scss";
 
@@ -35,9 +36,24 @@ function FormInput({ name, hooks }:{ name: string; hooks: Hooks }) {
 	hooks[name] = { value: value, set: set };
 	return <input className={"input"} placeholder={name} onChange={event => set(event.target.value)}/>
 }
+function SwappableIcon({ status, setStatus, text, onIcon, offIcon }:{ status: boolean; setStatus: (value: boolean) => void ; text: string; onIcon: IconType; offIcon: IconType; }) {
+	const [ rotated, setRotated ] = useState(status);
+
+	return (
+		<div className={"box"} onClick={event => {
+			setStatus(!status);
+			setRotated(false);
+			setTimeout(() => {
+				setRotated(true);
+			}, 1);
+		}}>
+			<p className={"text"}>{text}</p>
+			{status ? React.createElement(onIcon, { className: "icon" + (rotated ? "" : " rotated") }) : React.createElement(offIcon, { className: "icon" + (rotated ? " rotated" : "") }) }
+		</div>
+	);
+}
 function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ method: LoginMethod | undefined; setMethod: (value: LoginMethod) => void; encryption: boolean; setEncryption: (value: boolean) => void; hooks: Hooks }) {
 	const [ collapsed, setCollapsed ] = useState(true);
-	const [ rotated, setRotated ] = useState(encryption);
 
 	return (
 		<div className={"LoginSelect"}>
@@ -60,16 +76,7 @@ function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ m
 					</div>
 				</span>
 			</div>
-			<div className={"box"} onClick={event => {
-				setEncryption(!encryption);
-				setRotated(false);
-				setTimeout(() => {
-					setRotated(true);
-				}, 1);
-			}}>
-				<p className={"text"}>SSL Encryption</p>
-				{encryption ? <MdDone className={"icon" + (rotated ? "" : " rotated")} /> : <MdClose className={"icon" + (rotated ? " rotated" : "")} />}
-			</div>
+			<SwappableIcon status={encryption} setStatus={setEncryption} text={"SSL Encryption"} onIcon={MdDone} offIcon={MdClose} />
 			<FormInput name={addressField} hooks={hooks} />
 			{method != null ? <MethodFormInputs method={method} hooks={hooks} /> : null}
 
