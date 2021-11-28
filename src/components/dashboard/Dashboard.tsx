@@ -15,15 +15,22 @@ export default function Dashboard({ cookies }: { cookies: Record<string, any> })
 
 	useEffect(() => {
 		if (connection != null) return; // only try to connect the first time
-		const api = new CloudAPI(cookies.encryption === "true", cookies.host, { method: cookies.method, token: cookies.token });
-		const socket = api.upgradeWebSocket();
 
-		socket.onerror = () => {
-			setConnection(false);
-		}
-		socket.onopen = () => {
-			api.initSocket(socket);
-			setConnection(api);
+		try {
+			const api = new CloudAPI(cookies.encryption === "true", cookies.host, { method: cookies.method, token: cookies.token });
+			const socket = api.upgradeWebSocket();
+
+			socket.onerror = () => {
+				setConnection(false);
+			}
+			socket.onopen = () => {
+				api.initSocket(socket);
+				setConnection(api);
+			}
+
+		} catch (ex) {
+			console.error("Could not establish websocket connection");
+			console.error(ex);
 		}
 	});
 
@@ -34,7 +41,6 @@ export default function Dashboard({ cookies }: { cookies: Record<string, any> })
 				: !connection ? <Navigate to={"login"} />
 				: <>
 					<Nav/>
-
 					<div className={"content"}>
 						<Routes>
 							<Route path={"/"}       element={<Overview api={connection} />} />
