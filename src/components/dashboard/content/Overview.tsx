@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { MdPeopleOutline } from "react-icons/all";
+import {useEffect, useState} from "react";
+import {MdPeopleOutline} from "react-icons/all";
 
 import Loader from "../../Loader";
-import { CloudAPI, Player } from "../../../api/api";
+import {CloudAPI, Player} from "../../../api/api";
 
 function Card({ name, value }: { name: string; value: any; }) {
 	return (

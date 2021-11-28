@@ -1,6 +1,6 @@
-import { MdExpandMore, MdDone, MdClose } from "react-icons/md";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import {MdClose, MdDone, MdExpandMore} from "react-icons/md";
+import {useState} from "react";
+import {Navigate} from "react-router-dom";
 
 import "./Login.scss";
 

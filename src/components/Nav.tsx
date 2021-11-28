@@ -1,5 +1,5 @@
-import { MdHome, MdPeople, MdStorage, MdOutlineLogout } from "react-icons/all";
-import { IconType } from "react-icons";
+import {MdHome, MdOutlineLogout, MdPeople, MdStorage} from "react-icons/all";
+import {IconType} from "react-icons";
 
 import NavEntry from "./dashboard/NavEntry";
 
