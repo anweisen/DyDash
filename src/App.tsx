@@ -16,7 +16,7 @@ export default function App() {
 			<Router>
 				<Routes>
 					<Route path={"logout"} element={<Logout cookies={cookies} setCookies={setCookies} />} />
-					<Route path={"login"} element={<Login setCookies={setCookies} />} />
+					<Route path={"login"} element={<Login cookies={cookies} setCookies={setCookies} />} />
 					<Route path={"*"} element={!cookiesSet ? <Navigate to={"/login"} /> : <Dashboard cookies={cookies} />} />
 				</Routes>
 			</Router>
