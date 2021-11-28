@@ -147,9 +147,9 @@
 						justify-self: right;
 						transform: scale(1.45);
 
-						transition: transform 0.4s;
+						transition: all 0.4s;
 						&.rotated {
-							transform: scale(1.45) rotate(180deg);
+							transform: scale(1.45) rotate(-180deg);
 						}
 					}
 				}

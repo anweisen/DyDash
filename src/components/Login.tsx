@@ -37,6 +37,7 @@ function FormInput({ name, hooks }:{ name: string; hooks: Hooks }) {
 }
 function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ method: LoginMethod | undefined; setMethod: (value: LoginMethod) => void; encryption: boolean; setEncryption: (value: boolean) => void; hooks: Hooks }) {
 	const [ collapsed, setCollapsed ] = useState(true);
+	const [ rotated, setRotated ] = useState(encryption);
 
 	return (
 		<div className={"LoginSelect"}>
@@ -59,9 +60,15 @@ function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ m
 					</div>
 				</span>
 			</div>
-			<div className={"box"} onClick={event => setEncryption(!encryption)}>
+			<div className={"box"} onClick={event => {
+				setEncryption(!encryption);
+				setRotated(false);
+				setTimeout(() => {
+					setRotated(true);
+				}, 1);
+			}}>
 				<p className={"text"}>SSL Encryption</p>
-				{encryption ? <MdDone className={"icon"} /> : <MdClose className={"icon"} />}
+				{encryption ? <MdDone className={"icon" + (rotated ? "" : " rotated")} /> : <MdClose className={"icon" + (rotated ? " rotated" : "")} />}
 			</div>
 			<FormInput name={addressField} hooks={hooks} />
 			{method != null ? <MethodFormInputs method={method} hooks={hooks} /> : null}
