@@ -114,20 +114,23 @@
 					font-weight: 300;
 				}
 				.underlined {
-					transition: border-bottom-color ease 0.175s;
+					transition: border-bottom-color ease 0.25s;
 					padding-bottom: 5px;
 					border: none;
 					background: none;
 					border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+					&:hover {
+						border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+					}
+					&:focus, &:active {
+						border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+					}
 				}
 				.input, .box {
 					margin-top: 10px;
 				}
 
 				.input {
-					&:focus {
-						border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-					}
 					&:first-of-type {
 						margin-top: 20px;
 					}
