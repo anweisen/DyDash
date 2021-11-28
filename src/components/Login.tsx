@@ -18,23 +18,32 @@ const loginMethods: LoginMethod[] = [
 	{
 		name: "Token",
 		fields: [
-			"Access Token"
+			"API Token"
 		]
 	}
 ]
 const addressField = "Cloud Hostaddress";
 
-function MethodFormInputs({ method, hooks }:{ method: LoginMethod; hooks: Hooks }) {
+function getMethodByName(name: string): LoginMethod | undefined {
+	for (let method of loginMethods) {
+		if (method.name === name)
+			return method;
+	}
+	return undefined;
+}
+function MethodFormInputs({ method, hooks, cookies }:{ method: LoginMethod; hooks: Hooks; cookies: any }) {
+	const split = cookies.token === null || cookies.method !== method.name ? [] : cookies.token.split(":");
+
 	return (
 		<>
-			{method.fields.map(field => <FormInput key={field} name={field} hooks={hooks} />)}
+			{method.fields.map((field, index) => <FormInput key={field} name={field} hooks={hooks} defaultValue={split[index]} />)}
 		</>
 	);
 }
-function FormInput({ name, hooks }:{ name: string; hooks: Hooks }) {
+function FormInput({ name, hooks, defaultValue }:{ name: string; hooks: Hooks; defaultValue?: string }) {
 	const [ value, set ] = useState<string>();
 	hooks[name] = { value: value, set: set };
-	return <input className={"input underlined"} placeholder={name} onChange={event => set(event.target.value)}/>
+	return <input className={"input underlined"} defaultValue={defaultValue} placeholder={name} onChange={event => set(event.target.value)}/>
 }
 function SwappableIcon({ status, setStatus, text, onIcon, offIcon }:{ status: boolean; setStatus: (value: boolean) => void ; text: string; onIcon: IconType; offIcon: IconType; }) {
 	const [ rotated, setRotated ] = useState(status);
@@ -52,7 +61,7 @@ function SwappableIcon({ status, setStatus, text, onIcon, offIcon }:{ status: bo
 		</div>
 	);
 }
-function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ method: LoginMethod | undefined; setMethod: (value: LoginMethod) => void; encryption: boolean; setEncryption: (value: boolean) => void; hooks: Hooks }) {
+function LoginSelect({ method, setMethod, encryption, setEncryption, hooks, cookies }:{ method: LoginMethod | undefined; setMethod: (value: LoginMethod) => void; encryption: boolean; setEncryption: (value: boolean) => void; hooks: Hooks; cookies: any }) {
 	const [ collapsed, setCollapsed ] = useState(true);
 
 	return (
@@ -77,17 +86,17 @@ function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ m
 				</span>
 			</div>
 			<SwappableIcon status={encryption} setStatus={setEncryption} text={"SSL Encryption"} onIcon={MdDone} offIcon={MdClose} />
-			<FormInput name={addressField} hooks={hooks} />
-			{method != null ? <MethodFormInputs method={method} hooks={hooks} /> : null}
+			<FormInput name={addressField} hooks={hooks} defaultValue={cookies.host} />
+			{method != null ? <MethodFormInputs method={method} hooks={hooks} cookies={cookies} /> : null}
 
 		</div>
 	)
 }
 
-export default function Login({ setCookies }:{ setCookies: any }) {
-	const [ method, setMethod ] = useState<LoginMethod>();
+export default function Login({ cookies, setCookies }:{ cookies: any; setCookies: any }) {
+	const [ method, setMethod ] = useState(getMethodByName(cookies.method));
 	const [ redirect, setRedirect ] = useState(false);
-	const [ encryption, setEncryption ] = useState(false);
+	const [ encryption, setEncryption ] = useState(cookies.encryption === "true");
 	const hooks: Hooks = {};
 
 	function Redirect({ to }: { to: string }) {
@@ -107,7 +116,7 @@ export default function Login({ setCookies }:{ setCookies: any }) {
 					<h1>Login</h1>
 					{/*<h1>•┃ Login ┃•</h1>*/}
 					{/*<h1>•» Login «•</h1>*/}
-					<LoginSelect method={method} setMethod={setMethod} encryption={encryption} setEncryption={setEncryption} hooks={hooks} />
+					<LoginSelect method={method} setMethod={setMethod} encryption={encryption} setEncryption={setEncryption} hooks={hooks} cookies={cookies} />
 					<div className={"button"} onClick={event => {
 						event.preventDefault();
 
