@@ -34,13 +34,13 @@ function MethodFormInputs({ method, hooks }:{ method: LoginMethod; hooks: Hooks 
 function FormInput({ name, hooks }:{ name: string; hooks: Hooks }) {
 	const [ value, set ] = useState<string>();
 	hooks[name] = { value: value, set: set };
-	return <input className={"input"} placeholder={name} onChange={event => set(event.target.value)}/>
+	return <input className={"input underlined"} placeholder={name} onChange={event => set(event.target.value)}/>
 }
 function SwappableIcon({ status, setStatus, text, onIcon, offIcon }:{ status: boolean; setStatus: (value: boolean) => void ; text: string; onIcon: IconType; offIcon: IconType; }) {
 	const [ rotated, setRotated ] = useState(status);
 
 	return (
-		<div className={"box"} onClick={event => {
+		<div className={"box underlined"} onClick={event => {
 			setStatus(!status);
 			setRotated(false);
 			setTimeout(() => {
@@ -58,7 +58,7 @@ function LoginSelect({ method, setMethod, encryption, setEncryption, hooks }:{ m
 	return (
 		<div className={"LoginSelect"}>
 
-			<div className={"box"} onClick={event => setCollapsed(!collapsed)}>
+			<div className={"box underlined"} onClick={event => setCollapsed(!collapsed)}>
 				<p className={"text"}>{method == null ? "Select Method" : method.name}</p>
 				<MdExpandMore className={"icon" + (collapsed ? "" : " rotated")}/>
 			</div>
