@@ -14,6 +14,7 @@ export default function Dashboard({ cookies }: { cookies: Record<string, any> })
 	const [ connection, setConnection ] = useState<any>();
 
 	useEffect(() => {
+		if (connection != null) return;
 		try {
 			const api = new CloudAPI(cookies.encryption === "true", cookies.host, { method: cookies.method, token: cookies.token });
 			const socket = api.upgradeWebSocket();
