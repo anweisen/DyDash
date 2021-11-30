@@ -6,7 +6,10 @@ type Authentication = {
 	method: string;
 	token: string;
 }
-type UniqueId = string;
+type Route = {
+	path: string;
+	method: HttpMethod;
+}
 type HttpMethod =
 	| "get"
 	| "delete"
@@ -18,19 +21,22 @@ type HttpMethod =
 	| "purge"
 	| "link"
 	| "unlink";
-
-type Route = {
-	path: string;
-	method: HttpMethod;
-}
+type UniqueId = string;
 export module Routes {
-	export const UPGRADE_WEBSOCKET: Route 	= { path: "/upgrade", 		method: "get" };
-	export const ONLINE_PLAYERS: 	Route	= { path: "/player/online",	method: "get" };
+	export const UPGRADE_WEBSOCKET: Route 	= { path: "/upgrade", 				method: "get" };
+	export const STATUS: Route				= { path: "/status", 				method: "get" };
+	export const PING: Route				= { path: "/ping", 					method: "get" };
+	export const ONLINE_PLAYERS: Route		= { path: "/player/online",			method: "get" };
+	export const ONLINE_PLAYER_COUNT: Route	= { path: "/player/online/count",	method: "get" };
 }
 
 export interface Player {
 	name: string;
 	uuid: UniqueId;
+}
+export interface Status {
+	up_time: number;
+	startup_time: number;
 }
 
 export class CloudAPI {
@@ -87,13 +93,26 @@ export class CloudAPI {
 			timeout: 3500,
 			method: route.method
 		}).then(value => {
-			console.log(`Fetched ${route.path} in ${Date.now() - startTime}ms`)
+			const date = new Date();
+			console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()} Fetched ${route.path} in ${Date.now() - startTime}ms`)
 			return value.data;
 		});
 	}
 
+	public async makePropertyRequest(route: Route, property: string): Promise<any> {
+		return this.makeRequest(route).then(value => value[property]);
+	}
+
+	public async fetchStatus(): Promise<Status> {
+		return this.makeRequest(Routes.STATUS);
+	}
+
 	public async fetchPlayers(): Promise<Player[]> {
 		return this.makeRequest(Routes.ONLINE_PLAYERS);
+	}
+
+	public async fetchPlayerCount(): Promise<number> {
+		return this.makePropertyRequest(Routes.ONLINE_PLAYER_COUNT, "count");
 	}
 
 }
