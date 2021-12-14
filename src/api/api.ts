@@ -11,13 +11,15 @@ type Route = {
 	method: HttpMethod;
 }
 type HttpMethod =
-	| "get"
-	| "delete"
-	| "head"
 	| "options"
+	| "get"
+	| "head"
 	| "post"
 	| "put"
 	| "patch"
+	| "delete"
+//	| "trace" 		# not supported by axios
+//	| "connect"		# not supported by axios
 	| "purge"
 	| "link"
 	| "unlink";
