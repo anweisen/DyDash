@@ -15,8 +15,7 @@ export default function Players({ api }: { api: CloudAPI }) {
 		<div className={"Players Dashboard-Component"}>
 			{ players == null
 				? <Loader/>
-				: <>
-				</>
+				: null
 			}
 		</div>
 	);
